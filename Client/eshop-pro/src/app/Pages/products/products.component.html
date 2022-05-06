@@ -1,0 +1,175 @@
+<!--  ==========  -->
+<!--  = Breadcrumbs =  -->
+<!--  ==========  -->
+<div class="darker-stripe">
+  <div class="container">
+    <div class="row">
+      <div class="span12">
+        <ul class="breadcrumb">
+          <li>
+            <a href="index.html">وبمارکت</a>
+          </li>
+          <li><span class="icon-chevron-right"></span></li>
+          <li>
+            <a href="shop.html">فروشگاه</a>
+          </li>
+          <li><span class="icon-chevron-right"></span></li>
+          <li>
+            <a href="shop.html">قالب بندی اصلی</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="push-up blocks-spacer">
+    <div class="row">
+
+      <!--  ==========  -->
+      <!--  = Sidebar =  -->
+      <!--  ==========  -->
+      <aside class="span3 left-sidebar" id="tourStep1">
+        <div class="sidebar-item sidebar-filters" id="sidebarFilters">
+
+          <!--  ==========  -->
+          <!--  = Sidebar Title =  -->
+          <!--  ==========  -->
+          <div class="underlined">
+            <h3><span class="light">بر اساس فیلتر</span> خرید کنید</h3>
+          </div>
+
+          <!--  ==========  -->
+          <!--  = Categories =  -->
+          <!--  ==========  -->
+          <div class="accordion-group" id="tourStep2">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" href="#filterOne">دسته بندی ها <b
+                class="caret"></b></a>
+            </div>
+            <div id="filterOne" class="accordion-body collapse in">
+              <div class="accordion-inner">
+
+                <fieldset *ngIf="categories.length > 0">
+                  <label [for]="'cat_' + cat.id" class="checkbox" *ngFor="let cat of categories">
+                    <input type="checkbox" [value]="cat.id" [id]="'cat_' + cat.id"
+                           (change)="filterCategories($event)"
+                           [checked]="filterProducts.categories?.indexOf(cat.id) >= 0"
+                    >
+                    {{cat.title}}
+                  </label>
+                </fieldset>
+              </div>
+            </div>
+          </div> <!-- /categories -->
+
+          <!--  ==========  -->
+          <!--  = Prices slider =  -->
+          <!--  ==========  -->
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" href="#filterPrices">قیمت <b class="caret"></b></a>
+            </div>
+            <div id="filterPrices" class="accordion-body in collapse">
+              <div class="accordion-inner with-slider">
+                <div class="jqueryui-slider-container">
+                  <div id="pricesRange"></div>
+                </div>
+                <input type="text" data-initial="432" class="max-val pull-right" disabled/>
+                <input type="text" data-initial="99" class="min-val" disabled/>
+              </div>
+            </div>
+            <div>
+              <p>
+                <mat-slider 
+
+                  thumbLabel
+                  tickInterval="10000"
+                  min="0"
+                  max="1000000"
+                  [displayWith]="formatLabel"
+                  (change)="setMinPrice($event)"
+                ></mat-slider>
+                <span>{{filterProducts.startPrice}}</span>
+              </p>
+              <p>
+                <mat-slider
+                  thumbLabel
+                  tickInterval="10000"
+                  [min]="filterProducts.startPrice"
+                  max="1000000"
+                  [displayWith]="formatLabel"
+                  (change)="setMaxPrice($event)"
+                ></mat-slider>
+                <span>{{filterProducts.endPrice}}</span>
+              </p>
+              <button class="btn btn-success btn-block" (click)="filterButton()">فیلتر</button>
+            </div>
+          </div> <!-- /prices slider -->
+          <a href="#" class="remove-filter" id="removeFilters">
+            <span class="icon-ban-circle"></span>
+            حذف همه فیلترها</a>
+
+        </div>
+      </aside> <!-- /sidebar -->
+
+      <!--  ==========  -->
+      <!--  = Main content =  -->
+      <!--  ==========  -->
+      <section class="span9">
+
+        <!--  ==========  -->
+        <!--  = Title =  -->
+        <!--  ==========  -->
+        <div class="underlined push-down-20">
+          <div class="row">
+            <div class="span5">
+              <h3><span class="light">همه</span> محصولات</h3>
+            </div>
+            <div class="span4">
+              <div class="form-inline sorting-by" id="tourStep4">
+                <label for="orderBy" class="black-clr">چینش :</label>
+                <select [(ngModel)]="filterProducts.orderBy" id="orderBy" class="span3"
+                        (change)="changeOrder($event)">
+
+                  <optgroup label="قیمت">
+                    <option value='0'>بر اساس قیمت (کم به زیاد) &uarr;</option>
+                    <option value='1'>بر اساس قیمت (زیاد به کم) &darr;</option>
+                  </optgroup>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div> <!-- /title -->
+
+        <!--  ==========  -->
+        <!--  = Products =  -->
+        <!--  ==========  -->
+        <div class="row popup-products" *ngIf="filterProducts.products.length">
+          <div id="isotopeContainer" class="isotope-container">
+            <app-single-product
+              *ngFor="let product of filterProducts.products"
+              [product]="product">
+            </app-single-product>
+            <div class="clearfix"></div>
+            <hr>
+            <div class="pagination pull-left">
+              <ul>
+                <li><a href="#" class="btn btn-primary"><span class="icon-chevron-left"></span></a></li>
+                <li
+                  [ngClass]="{'active':page === filterProducts.activePage}"
+                  *ngFor="let page of pages"
+                  (click)="setPage(page)"
+                >
+                  <a class="cursor-pointer">{{page}}</a></li>
+                <li><a href="#" class="btn btn-primary"><span class="icon-chevron-right"></span></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section> <!-- /main content -->
+    </div>
+  </div>
+</div>
+<ngx-loading [show]="isLoading"></ngx-loading>

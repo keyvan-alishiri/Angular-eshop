@@ -1,0 +1,73 @@
+<div class="fullwidthbanner-container">
+  <div class="fullwidthbanner">
+    <ul *ngIf="sliders !== null && sliders.length > 0">
+      <li data-transition="premium-random" data-slotamount="3" *ngFor="let slider of sliders">
+        <img [src]= "domain +'/images/sliders/origin/'+slider.imageName"   alt="slider img" width="1400" height="377"/>
+
+        <!-- baloons -->
+        <div class="caption lft ltt"
+             data-x="570"
+             data-y="50"
+             data-speed="4000"
+             data-start="1000"
+             data-easing="easeOutElastic">
+          <img src="/assets/images/dummy/slides/1/baloon1.png" alt="baloon" width="135" height="186"/>
+        </div>
+
+        <div class="caption lft ltt"
+             data-x="770"
+             data-y="60"
+             data-speed="4000"
+             data-start="1200"
+             data-easing="easeOutElastic">
+          <img src="/assets/images/dummy/slides/1/baloon3.png" alt="baloon" width="40" height="55"/>
+        </div>
+
+        <div class="caption lft ltt"
+             data-x="870"
+             data-y="80"
+             data-speed="4000"
+             data-start="1500"
+             data-easing="easeOutElastic">
+          <img src="/assets/images/dummy/slides/1/baloon2.png" alt="baloon" width="60" height="83"/>
+        </div>
+
+        <!-- texts -->
+        <div class="caption lfl big_theme"
+             data-x="120"
+             data-y="120"
+             data-speed="1000"
+             data-start="500"
+             data-easing="easeInOutBack">
+          {{slider.title}}
+        </div>
+
+        <div class="caption lfl small_theme"
+             data-x="120"
+             data-y="190"
+             data-speed="1000"
+             data-start="700"
+             data-easing="easeInOutBack">
+             {{slider.description}}
+        </div>
+
+        <a [href]="slider.link" class="caption lfl btn btn-primary btn_theme"
+           data-x="120"
+           data-y="260"
+           data-speed="1000"
+           data-start="900"
+           data-easing="easeInOutBack" *ngIf="slider.link !== null">
+         مشاهده
+        </a>
+      </li><!-- /slide -->
+
+
+    </ul>
+    <div class="tp-bannertimer"></div>
+  </div>
+  <!--  ==========  -->
+  <!--  = Nav Arrows =  -->
+  <!--  ==========  -->
+  <div id="sliderRevLeft"><i class="icon-chevron-left"></i></div>
+  <div id="sliderRevRight"><i class="icon-chevron-right"></i></div>
+</div> <!-- /slider revolution -->

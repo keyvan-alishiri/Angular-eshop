@@ -1,0 +1,13 @@
+.contact-form-container div{
+  display: flex;
+  justify-content: stretch;
+  align-items: stretch;
+  flex-direction: column;
+
+}
+
+input.ng-touched.ng-invalid{
+  border: 1px solid red;
+  box-shadow: .5px .5px 5px rgb(231, 192, 192);
+}
+

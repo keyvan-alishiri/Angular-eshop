@@ -1,0 +1,76 @@
+<!--  ==========  -->
+<!--  = Breadcrumbs =  -->
+<!--  ==========  -->
+<div class="darker-stripe">
+  <div class="container">
+    <div class="row">
+      <div class="span12">
+        <ul class="breadcrumb">
+          <li>
+            <a routerLink="">وبمارکت</a>
+          </li>
+          <li><span class="icon-chevron-right"></span></li>
+          <li>
+            <a>ورود</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="push-up top-equal blocks-spacer-last">
+    <div class="row">
+
+      <div class="span12">
+        <div class="title-area">
+          <h1 class="inline">ورود</h1>
+        </div>
+      </div>
+      <section class="span8 single single-page">
+
+        <hr/>
+        <section class="contact-form-container">
+
+          <h3 class="push-down-25">ورود</h3>
+
+          <form [formGroup]="loginForm" (submit)="submitLoginForm()" class="form form-inline form-contact">
+            <p class="push-down-20">
+              <label>ایمیل<span class="red-clr bold">*</span></label>
+              <input type="email" tabindex="3" class="span12" formControlName="email">
+            </p>
+            <p class="text-error"
+               *ngIf="loginForm.controls.email.errors?.required && loginForm.controls.email.touched">
+              لطفا ایمیل خود را وارد نمایید
+            </p>
+            <p class="text-error"
+               *ngIf="loginForm.controls.email.errors?.email && loginForm.controls.email.touched">
+              ایمیل وارد شده معتبر نمی باشد
+            </p>
+
+            <p class="push-down-20">
+              <label>کلمه عبور<span class="red-clr bold">*</span></label>
+              <input type="password" tabindex="4" class="span12" formControlName="password">
+            </p>
+
+            <p class="text-error"
+               *ngIf="loginForm.controls.password.errors?.required && loginForm.controls.password.touched">
+              لطفا کلمه عبور خود را وارد نمایید
+            </p>
+
+            <p>
+              <button class="btn btn-primary bold" [disabled]="loginForm.invalid" type="submit" tabindex="7"
+                      id="submit">ورود
+              </button>
+            </p>
+          </form>
+        </section>
+        <hr/>
+      </section>
+    </div>
+  </div>
+</div>
+
+
+
