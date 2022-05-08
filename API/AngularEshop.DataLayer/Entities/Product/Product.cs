@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using AngularEshop.DataLayer.Entities.Common;
+using AngularEshop.DataLayer.Entities.Orders;
 
 namespace AngularEshop.DataLayer.Entities.Product
 {
@@ -49,6 +50,7 @@ namespace AngularEshop.DataLayer.Entities.Product
 
         public ICollection<ProductSelectedCategory> ProductSelectedCategories { get; set; }
 	   public ICollection<ProductComment> ProductComments{ get; set; }
+	  public ICollection<OrderDetail> OrderDetails { get; set; }
 
 	  #endregion
    }

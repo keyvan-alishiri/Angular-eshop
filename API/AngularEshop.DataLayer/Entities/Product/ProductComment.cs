@@ -14,6 +14,7 @@ namespace AngularEshop.DataLayer.Entities.Product
 
 	  
 	  public long ProductId { get; set; }
+	  public long UserId { get; set; }
 
 	  public long? ParentId { get; set; }
 	  [Display(Name = "نظر")]

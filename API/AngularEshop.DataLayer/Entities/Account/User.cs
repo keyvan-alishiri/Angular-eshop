@@ -1,5 +1,6 @@
 ﻿using AngularEshop.DataLayer.Entities.Access;
 using AngularEshop.DataLayer.Entities.Common;
+using AngularEshop.DataLayer.Entities.Orders;
 using AngularEshop.DataLayer.Entities.Product;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -46,6 +47,7 @@ namespace AngularEshop.DataLayer.Entities.Account
 
       public ICollection<UserRole> UserRoles { get; set; }
 	  public ICollection<ProductComment> ProductComments { get; set; }
+	  public ICollection<Order> Orders { get; set; }
 
 	  #endregion
    }

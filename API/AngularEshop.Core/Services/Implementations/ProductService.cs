@@ -123,12 +123,20 @@ namespace AngularEshop.Core.Services.Implementations
          return relatedProducts;
       }
 
-   
-	  #endregion
+      public async Task<bool> IsExistsProductById(long productId)
+      {
+         return await productRepository.GetEntitiesQuery().AnyAsync(s => s.Id == productId);
+      }
 
-	  #region Product Categories
+      public async Task<Product> GetProductForUserOrder(long productId)
+      {
+         return await productRepository.GetEntitiesQuery().SingleOrDefaultAsync(s => s.Id == productId && !s.IsDelete);
+      }
+      #endregion
 
-	  public async Task<List<ProductCategory>> GetAllActiveProductCategories()
+      #region Product Categories
+
+      public async Task<List<ProductCategory>> GetAllActiveProductCategories()
       {
          return await productCategoryRepository.GetEntitiesQuery().Where(s => !s.IsDelete).ToListAsync();
       }
@@ -179,6 +187,29 @@ namespace AngularEshop.Core.Services.Implementations
             })
             .ToListAsync();
       }
+      
+      public async Task<ProductCommentDTO> AddProductComment(AddProductCommentDTO comment, long userId)
+      {
+         var commentData = new ProductComment
+         {
+            ProductId = comment.ProductId,
+            Text = comment.Text,
+            UserId = userId
+         };
+
+         await productCommentRepository.AddEntity(commentData);
+
+         await productCommentRepository.SaveChanges();
+
+         return new ProductCommentDTO
+         {
+            Id = commentData.Id,
+            CreateDate = commentData.CreateDate.ToString("yyyy/MM/dd HH:mm"),
+            Text = commentData.Text,
+            UserId = userId,
+            UserFullName = ""
+         };
+      }
       #endregion
 
       #region Dispose
@@ -194,6 +225,10 @@ namespace AngularEshop.Core.Services.Implementations
       }
 
 	 
+
+
+
+
 
 	  #endregion
    }

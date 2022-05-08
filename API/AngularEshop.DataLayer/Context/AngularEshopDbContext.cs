@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using AngularEshop.DataLayer.Entities.Access;
 using AngularEshop.DataLayer.Entities.Account;
+using AngularEshop.DataLayer.Entities.Orders;
 using AngularEshop.DataLayer.Entities.Product;
 using AngularEshop.DataLayer.Entities.Site;
 using Microsoft.EntityFrameworkCore;
@@ -36,13 +37,16 @@ namespace AngularEshop.DataLayer.Context
 
         public DbSet<ProductSelectedCategory> ProductSelectedCategories { get; set; }
 
-        public DbSet<ProductVisit> ProductVisits { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
-        #endregion
+        public DbSet<OrderDetail> OrderDetails { get; set; }
 
-        #region disable cascading delete in database
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+      #endregion
+
+      #region disable cascading delete in database
+
+      protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             var cascades = modelBuilder.Model.GetEntityTypes()
                 .SelectMany(t => t.GetForeignKeys())

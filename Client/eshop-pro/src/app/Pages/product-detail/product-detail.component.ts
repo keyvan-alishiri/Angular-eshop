@@ -1,9 +1,14 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { param } from 'jquery';
+import { CurrentUserDTO } from 'src/app/models/Account/CurrentUserDTO';
+import { AddProductComment } from 'src/app/models/Products/AddProductComment';
 import { Product } from 'src/app/models/Products/Product';
 import { ProductCommentDTO } from 'src/app/models/Products/ProductCommentDTO';
 import { ProductGallery } from 'src/app/models/Products/ProductGallery';
+import { AuthService } from 'src/app/services/auth.service';
 import { ProductsService } from 'src/app/services/products.service';
 import { ImageGalleryPath, ImagePath } from 'src/app/Utilities/PathTools';
 
@@ -21,6 +26,9 @@ export class ProductDetailComponent implements OnInit {
   selectedImageId= 0;
   relatedProducts : Product[] = [];
   productComments: ProductCommentDTO[] =[];
+  currentUser : CurrentUserDTO = null;
+  commentForm: FormGroup;
+
 
 
 
@@ -28,9 +36,15 @@ export class ProductDetailComponent implements OnInit {
     private productService: ProductsService,
     private activatedRoute: ActivatedRoute,
     private router:Router,
+    private authService : AuthService
   ) { }
 
   ngOnInit(): void {
+    this.authService.getCurrentUser().subscribe(param => {
+      if(param != null){
+        this.currentUser = param
+      }
+    });
     this.activatedRoute.params.subscribe(params => {
       const productId = params.productId;
       if (productId === undefined) {
@@ -64,9 +78,20 @@ export class ProductDetailComponent implements OnInit {
 
     });
 
+
+    this.commentForm= new FormGroup({
+   text: new FormControl(null,[
+     Validators.required,
+     Validators.maxLength(1000)
+   ])
+    });
+
   }
 
+
+
   selectImage(imageId: number){
+
     this.selectedImageId = imageId;
     if(imageId !== 0)
     {
@@ -82,4 +107,26 @@ export class ProductDetailComponent implements OnInit {
 
   }
 
+
+  addComment(){
+    if(this.commentForm.valid){
+      const comment = new AddProductComment(this.product.id,this.commentForm.controls.text.value);
+
+      //add comment to a
+
+      this.productService.addProductComment(comment).subscribe( res => {
+
+        if(res.status === 'Success')
+        {
+          const commentDTO= res.data;
+          commentDTO.userFullName = this.currentUser.firstName + ' ' +this.currentUser.lastName ;
+          this.productComments.unshift(commentDTO);
+          // this.productComments.sort( s => s.id).reverse;
+          this.commentForm.reset();
+        }
+
+      });
+    }
+
+  }
 }
